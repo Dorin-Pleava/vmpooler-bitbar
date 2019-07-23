@@ -10,6 +10,7 @@ import (
 )
 
 const defaultLifetimeExtension = 2
+const oneDayLifetimeExtension = 24
 
 func init() {
 	rootCmd.AddCommand(extendCmd)
@@ -32,7 +33,6 @@ func runExtend(cmd *cobra.Command, args []string) {
 	}
 
 	target := args[0]
-
 	vmclient := vm.NewClient(cfg.Endpoint, cfg.Token)
 
 	var vms []vm.VM
@@ -50,7 +50,11 @@ func runExtend(cmd *cobra.Command, args []string) {
 	}
 
 	for _, vm := range vms {
-		_, err = vmclient.SetLifetime(vm.Hostname, int(vm.Lifetime)+defaultLifetimeExtension)
+		if args[1] == "oneDay" {
+			_, err = vmclient.SetLifetime(vm.Hostname, int(vm.Lifetime)+oneDayLifetimeExtension)
+	 	} else {
+			_, err = vmclient.SetLifetime(vm.Hostname, int(vm.Lifetime)+defaultLifetimeExtension)
+		}
 		if err != nil {
 			fmt.Printf("Error: %v\n", err)
 		}

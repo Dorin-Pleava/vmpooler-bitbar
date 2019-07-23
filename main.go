@@ -1,6 +1,6 @@
 package main
 
-import "github.com/johnmccabe/vmpooler-bitbar/commands"
+import "./commands"
 
 func main() {
 	commands.Execute()

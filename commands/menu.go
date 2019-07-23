@@ -34,11 +34,11 @@ func runMenu(cmd *cobra.Command, args []string) {
 		plugin.StatusLine(" ❓").Font("Avenir").Size(16)
 		menu := plugin.NewSubMenu()
 		if err.Error() == "Config file not found" {
-			menu.Line("Initialise config").Bash(ex).Params([]string{"config"}).Terminal(true).Refresh(true)
+			menu.Line("Initialise config").Bash(ex).Params([]string{"config"}).Terminal(true).Refresh()
 		} else {
 			menu.Line(fmt.Sprintf("Error: %v", err))
 		}
-		fmt.Print(plugin.Render())
+		// fmt.Print(plugin.Render())
 		os.Exit(1)
 	}
 
@@ -68,9 +68,9 @@ func runMenu(cmd *cobra.Command, args []string) {
 	progressBarStates := []string{"███▏", "██▊▏", "██▋▏", "██▌▏", "██▍▏", "██▎▏", "██▏▏", "██ ▏", "█▉ ▏", "█▊ ▏", "█▋ ▏", "█▌ ▏", "█▍ ▏", "█▎ ▏", "█▏ ▏", "█  ▏", "▉  ▏", "▊  ▏", "▋  ▏", "▌  ▏", "▍  ▏", "▎  ▏", "▏  ▏"}
 
 	for _, vm := range virtualmachines {
-		timebar := progressBarStates[int(vm.Running*float64((len(progressBarStates)-1))/vm.Lifetime)]
+		timebar := progressBarStates[int(vm.Running*float64((len(progressBarStates)-1))/float64(vm.Lifetime))]
 		vmcolour := "green"
-		if (vm.Lifetime - vm.Running) <= float64(cfg.LifetimeWarning) {
+		if (float64(vm.Lifetime) - vm.Running) <= float64(cfg.LifetimeWarning) {
 			vmcolour = "red"
 		}
 		menu.Line(fmt.Sprintf("%s %s (%s)", timebar, vm.Hostname, vm.Template.Id)).
@@ -91,7 +91,7 @@ func runMenu(cmd *cobra.Command, args []string) {
 			Bash(ex).
 			Params([]string{"delete", vm.Hostname}).
 			Terminal(false).
-			Refresh(true).
+			Refresh().
 			Size(12)
 
 		vmmenu.HR()
@@ -100,7 +100,7 @@ func runMenu(cmd *cobra.Command, args []string) {
 			Bash(ex).
 			Params([]string{"extend", vm.Hostname}).
 			Terminal(false).
-			Refresh(true).
+			Refresh().
 			Size(12)
 
 		vmmenu.HR()
@@ -155,14 +155,14 @@ func runMenu(cmd *cobra.Command, args []string) {
 		Bash(ex).
 		Params([]string{"delete", "all"}).
 		Terminal(false).
-		Refresh(true).
+		Refresh().
 		Size(12)
 
-	bulkmenu.Line("Extend Lifetime (+2h)").
+	bulkmenu.Line("Extend Lifetime (+2h) COOL").
 		Bash(ex).
 		Params([]string{"extend", "all"}).
 		Terminal(false).
-		Refresh(true).
+		Refresh().
 		Size(12)
 
 	menu.HR()
@@ -188,14 +188,14 @@ func runMenu(cmd *cobra.Command, args []string) {
 				Bash(ex).
 				Params([]string{"newvm", template}).
 				Terminal(false).
-				Refresh(true).
+				Refresh().
 				Size(12)
 		}
 	}
 	menu.HR()
-	menu.Line("Refresh..").Refresh(true)
+	menu.Line("Refresh..").Refresh()
 
-	fmt.Print(plugin.Render())
+	// fmt.Print(plugin.Render())
 }
 
 func sshUser(vm vm.VM) string {
@@ -240,6 +240,6 @@ func errorMenu(err error) {
 	plugin.StatusLine("VMs: ⛔️").Color("red")
 	menu := plugin.NewSubMenu()
 	menu.Line(errMsg).CopyToClipboard(err.Error())
-	fmt.Print(plugin.Render())
+	// fmt.Print(plugin.Render())
 	os.Exit(1)
 }
