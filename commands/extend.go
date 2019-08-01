@@ -50,9 +50,30 @@ func runExtend(cmd *cobra.Command, args []string) {
 	}
 
 	for _, vm := range vms {
-		_, err = vmclient.SetLifetime(vm.Hostname, int(vm.Lifetime)+defaultLifetimeExtension)
-		if err != nil {
-			fmt.Printf("Error: %v\n", err)
+
+		switch args[1] {
+		case "TwoHours":
+			_, err = vmclient.SetLifetime(vm.Hostname, int(vm.Lifetime)+defaultLifetimeExtension)
+			if err != nil {
+				fmt.Printf("Error: %v\n", err)
+			}
+		case "OneDay":
+			_, err = vmclient.SetLifetime(vm.Hostname, int(vm.Lifetime)+24)
+			if err != nil {
+				fmt.Printf("Error: %v\n", err)
+			}
+
+		case "ThreeDays":
+			_, err = vmclient.SetLifetime(vm.Hostname, int(vm.Lifetime)+72)
+			if err != nil {
+				fmt.Printf("Error: %v\n", err)
+			}
+
+		default:
+			_, err = vmclient.SetLifetime(vm.Hostname, int(vm.Lifetime)+24)
+			if err != nil {
+				fmt.Printf("Error: %v\n", err)
+			}
 		}
 	}
 
