@@ -83,6 +83,67 @@ func runMenu(cmd *cobra.Command, args []string) {
 
 		vmmenu.Line("Action").Font("Arial Bold").Size(14)
 
+		// Puppet Main Menu
+		vmmenu.Line("Puppet").
+			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
+			Terminal(true).
+			Size(12)
+
+		puppetmenu := vmmenu.NewSubMenu()
+
+		puppetmenu.Line("Install Puppet-Agent Version...").
+			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
+			Terminal(true).
+			Size(12)
+
+		puppetVersionsMenu := puppetmenu.NewSubMenu()
+
+		puppetVersionsMenu.Line("Latest").
+			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
+			Terminal(true).
+			Size(12)
+
+		puppetVersionsMenu.Line("5.5.10").
+			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
+			Terminal(true).
+			Size(12)
+
+			// Bolt Menu
+		puppetmenu.Line("Install Bolt Version...").
+			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
+			Terminal(true).
+			Size(12)
+
+		boltVersionsMenu := puppetmenu.NewSubMenu()
+
+		boltVersionsMenu.Line("Latest").
+			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
+			Terminal(true).
+			Size(12)
+
+		boltVersionsMenu.Line("3.3.1").
+			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
+			Terminal(true).
+			Size(12)
+
+			// Something new Menu
+		puppetmenu.Line("Install Something Version...").
+			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
+			Terminal(true).
+			Size(12)
+
+		somethingVersionsMenu := puppetmenu.NewSubMenu()
+
+		somethingVersionsMenu.Line("Latest").
+			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
+			Terminal(true).
+			Size(12)
+
+		somethingVersionsMenu.Line("x.y.z").
+			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
+			Terminal(true).
+			Size(12)
+
 		vmmenu.Line("SSH to VM").
 			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
 			Terminal(true).
