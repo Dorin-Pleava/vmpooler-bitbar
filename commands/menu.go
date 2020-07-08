@@ -83,14 +83,21 @@ func runMenu(cmd *cobra.Command, args []string) {
 
 		vmmenu.Line("Action").Font("Arial Bold").Size(14)
 
+		// cmddd := bitbar.Cmd{Bash: "/Users/dorin.pleava/.rvm/gems/ruby-2.5.1/bin/terminal-notifier", Params: []string{"-message", "Hello, this is my message", "-title", "Message Title"}}
+
 		// Puppet Main Menu
 		vmmenu.Line("Puppet").
-			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
+			// Bash(ex).
+			Href(fmt.Sprintf("ssh %s@%s -t 'puppet --version'", sshUser(vm), vm.Fqdn)).
+			// Params([]string{"info", sshUser(vm), vm.Fqdn}).
 			Terminal(true).
 			Size(12)
 
+		// exec.Command("osascript -e 'tell application (path to frontmost application as text) to display dialog \"Hello from osxdaily.com\" buttons {\"OK\"} with icon stop'", "")
+
 		puppetmenu := vmmenu.NewSubMenu()
 
+		// Puppet Agent Menu
 		puppetmenu.Line("Install Puppet-Agent Version...").
 			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
 			Terminal(true).
@@ -104,6 +111,24 @@ func runMenu(cmd *cobra.Command, args []string) {
 			Size(12)
 
 		puppetVersionsMenu.Line("5.5.10").
+			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
+			Terminal(true).
+			Size(12)
+
+		// Puppet Enterprise menu
+		puppetmenu.Line("Install Puppet-Enterprise Version...").
+			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
+			Terminal(true).
+			Size(12)
+
+		puppetEnterpriseVersionsMenu := puppetmenu.NewSubMenu()
+
+		puppetEnterpriseVersionsMenu.Line("Latest").
+			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
+			Terminal(true).
+			Size(12)
+
+		puppetEnterpriseVersionsMenu.Line("5.5.10").
 			Href(fmt.Sprintf("ssh://%s@%s", sshUser(vm), vm.Fqdn)).
 			Terminal(true).
 			Size(12)

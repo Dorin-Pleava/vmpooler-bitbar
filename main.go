@@ -1,7 +1,10 @@
 package main
 
-import "./commands"
+import (
+	"./commands"
+)
 
 func main() {
+
 	commands.Execute()
 }
