@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"../config"
+	"github.com/Dorin-Pleava/vmpooler-bitbar/config"
 	"github.com/johnmccabe/go-bitbar"
 	"github.com/johnmccabe/go-vmpooler/vm"
 	"github.com/spf13/cobra"
@@ -34,12 +34,11 @@ func runMenu(cmd *cobra.Command, args []string) {
 		plugin.StatusLine(" ❓").Font("Avenir").Size(16)
 		menu := plugin.NewSubMenu()
 		if err.Error() == "Config file not found" {
-			menu.Line("Initialise config").Bash(ex).Params([]string{"config"}).Terminal(true).Refresh()
+			menu.Line("Initialise config").Bash(ex).Params([]string{"config"}).Terminal(true).Refresh(true)
 		} else {
 			menu.Line(fmt.Sprintf("Error: %v", err))
 		}
-		// fmt.Print()
-		plugin.Render()
+		fmt.Print(plugin.Render())
 		os.Exit(1)
 	}
 
@@ -178,7 +177,7 @@ func runMenu(cmd *cobra.Command, args []string) {
 			Bash(ex).
 			Params([]string{"delete", vm.Hostname}).
 			Terminal(false).
-			Refresh().
+			Refresh(true).
 			Size(12)
 
 		vmmenu.HR()
@@ -187,21 +186,21 @@ func runMenu(cmd *cobra.Command, args []string) {
 			Bash(ex).
 			Params([]string{"extend", vm.Hostname, "TwoHours"}).
 			Terminal(false).
-			Refresh().
+			Refresh(true).
 			Size(12)
 
 		vmmenu.Line("Extend Lifetime for one day").
 			Bash(ex).
 			Params([]string{"extend", vm.Hostname, "OneDay"}).
 			Terminal(false).
-			Refresh().
+			Refresh(true).
 			Size(12)
 
 		vmmenu.Line("Extend Lifetime for three days").
 			Bash(ex).
 			Params([]string{"extend", vm.Hostname, "ThreeDays"}).
 			Terminal(false).
-			Refresh().
+			Refresh(true).
 			Size(12)
 
 		vmmenu.HR()
@@ -259,28 +258,28 @@ func runMenu(cmd *cobra.Command, args []string) {
 		Bash(ex).
 		Params([]string{"delete", "all"}).
 		Terminal(false).
-		Refresh().
+		Refresh(true).
 		Size(12)
 
 	bulkmenu.Line("Extend Lifetime (+2h)").
 		Bash(ex).
 		Params([]string{"extend", "all", "TwoHours"}).
 		Terminal(false).
-		Refresh().
+		Refresh(true).
 		Size(12)
 
 	bulkmenu.Line("Extend Lifetime for one day").
 		Bash(ex).
 		Params([]string{"extend", "all", "OneDay"}).
 		Terminal(false).
-		Refresh().
+		Refresh(true).
 		Size(12)
 
 	bulkmenu.Line("Extend Lifetime for three days").
 		Bash(ex).
 		Params([]string{"extend", "all", "ThreeDays"}).
 		Terminal(false).
-		Refresh().
+		Refresh(true).
 		Size(12)
 
 	menu.HR()
@@ -306,15 +305,14 @@ func runMenu(cmd *cobra.Command, args []string) {
 				Bash(ex).
 				Params([]string{"newvm", template}).
 				Terminal(false).
-				Refresh().
+				Refresh(true).
 				Size(12)
 		}
 	}
 	menu.HR()
-	menu.Line("Refresh..").Refresh()
+	menu.Line("Refresh..").Refresh(true)
 
-	// fmt.Print()
-	plugin.Render()
+	fmt.Print(plugin.Render())
 }
 
 func sshUser(vm vm.VM) string {

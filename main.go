@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./commands"
+	"github.com/Dorin-Pleava/vmpooler-bitbar/commands"
 )
 
 func main() {
